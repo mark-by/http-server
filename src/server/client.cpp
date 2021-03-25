@@ -60,4 +60,9 @@ void Client::write(const http::Response& response) {
         }
         left -= sent;
     }
+
+    if (response.descriptor() > 0) {
+        off_t len = 0;
+        sendfile(response.descriptor(), _socket, 0, &len, nullptr, 0);
+    }
 }

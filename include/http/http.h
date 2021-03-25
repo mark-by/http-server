@@ -7,6 +7,7 @@ namespace http::method {
     const std::string PATCH = "PATCH";
     const std::string PUT = "PUT";
     const std::string DELETE = "DELETE";
+    const std::string HEAD = "HEAD";
 }
 
 namespace http::status {

@@ -9,7 +9,15 @@ void http::Response::setDate() {
 
 http::Response::Response(const int &status) : statusCode(status) {
     setDate();
+    setHeader("Server", "mark-by");
 }
+
+http::Response::~Response() {
+    if (_fileDescriptor > 0) {
+        close(_fileDescriptor);
+    }
+}
+
 
 void http::Response::startLineToStream(std::stringstream & ss) const {
     ss << HTTP_VERSION << " " << statusCode << " " << statusToStr() << "\r\n";
@@ -26,9 +34,19 @@ std::string http::Response::str() const {
 
 http::Response::Response(const std::string &data, const std::string &contentType, const int &status) : statusCode(status) {
     setDate();
-    setHeader("Content-Type", "text/html; charset=UTF-8");
+    setHeader("Content-Type", contentType);
+    setHeader("Server", "mark-by");
     body = data;
+    _fileDescriptor = -1;
     setHeader("Content-Length", std::to_string(body.size()));
+}
+
+http::Response::Response(int fileDescriptor, size_t size, const std::string &contentType, int status) : statusCode(status) {
+    setDate();
+    setHeader("Content-Type", contentType);
+    setHeader("Server", "mark-by");
+    _fileDescriptor = fileDescriptor;
+    setHeader("Content-Length", std::to_string(size));
 }
 
 void http::Response::headersToStream(std::stringstream & ss) const {

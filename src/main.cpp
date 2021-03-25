@@ -6,7 +6,7 @@
 
 int main() {
     auto config = Config("config.json");
-    auto handler = StaticHandler(config.rootDirectory);
+    auto handler = StaticHandler(config.rootDirectory, config.defaultFile);
     auto server = Server(config);
 
     server.start(handler);

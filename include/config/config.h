@@ -11,6 +11,7 @@ struct Config {
     int limit;
     int bufferSize;
     std::string rootDirectory;
+    std::string defaultFile;
 };
 
 #endif //HIGHLOAD_CONFIG_H

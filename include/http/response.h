@@ -13,12 +13,17 @@ namespace http {
     public:
         explicit Response(const int &status = status::OK);
         explicit Response(const std::string& data, const std::string& contentType, const int &status = status::OK);
+        explicit Response(int fileDescriptor, size_t size, const std::string& contentType, int status = status::OK);
         Response& operator=(Response&& other) noexcept ;
         Response(const Response& other);
+        ~Response();
 
         std::string str() const;
         void setHeader(const std::string &key, const std::string &value);
         void setStatus(const int &status);
+        void sendBody(int socketDescriptor);
+
+        int descriptor() const {return _fileDescriptor;}
     private:
         void setDate();
         std::string statusToStr() const;
@@ -28,6 +33,7 @@ namespace http {
         DateTimeConverter ptimeConverter;
         std::unordered_multimap<std::string, std::string> headers;
         std::string body;
+        int _fileDescriptor;
         int statusCode;
     };
 }

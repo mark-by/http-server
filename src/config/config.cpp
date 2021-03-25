@@ -18,4 +18,5 @@ Config::Config(const std::string& filename) {
     limit = root.get<int>("limit", 50);
     bufferSize = root.get<int>("bufferSize", 8000);
     rootDirectory = root.get<std::string>("root", "");
+    defaultFile = root.get<std::string>("defaultFile", "index.html");
 }

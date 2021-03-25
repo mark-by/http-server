@@ -1,7 +1,5 @@
 #include <http/request.h>
 #include <regex>
-#include <iostream>
-#include <boost/algorithm/string.hpp>
 #include "http/regex.h"
 #include <curl/curl.h>
 
@@ -12,7 +10,7 @@ http::Request::Request(const std::string &request) {
 void http::Request::parseStartLine(const std::string::const_iterator &begin, const std::string::const_iterator &end){
     std::sregex_iterator match(begin, end, http::regex::startLine);
     _method = match->format("$1");
-    _url = match->format("$2");
+    _url = urlDecode(match->format("$2"));
 }
 
 std::string http::Request::method() const {

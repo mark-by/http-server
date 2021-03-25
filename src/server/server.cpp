@@ -73,7 +73,11 @@ void Server::start(const IHandler& handler) {
     }
 
     for(;;) {
-        auto client = accept();
-        client->serve(handler);
+        try {
+            auto client = accept();
+            client->serve(handler);
+        } catch (std::exception &e) {
+            std::cerr << e.what() << std::endl;
+        }
     }
 }
