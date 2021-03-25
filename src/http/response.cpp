@@ -37,6 +37,7 @@ http::Response::Response(const std::string &data, const std::string &contentType
     setHeader("Content-Type", contentType);
     setHeader("Server", "mark-by");
     body = data;
+    _contentLength = body.size();
     _fileDescriptor = -1;
     setHeader("Content-Length", std::to_string(body.size()));
 }
@@ -46,6 +47,7 @@ http::Response::Response(int fileDescriptor, size_t size, const std::string &con
     setHeader("Content-Type", contentType);
     setHeader("Server", "mark-by");
     _fileDescriptor = fileDescriptor;
+    _contentLength = size;
     setHeader("Content-Length", std::to_string(size));
 }
 

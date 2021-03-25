@@ -21,7 +21,7 @@ namespace http {
         std::string str() const;
         void setHeader(const std::string &key, const std::string &value);
         void setStatus(const int &status);
-        void sendBody(int socketDescriptor);
+        size_t contentLength() {return _contentLength;}
 
         int descriptor() const {return _fileDescriptor;}
     private:
@@ -35,6 +35,7 @@ namespace http {
         std::string body;
         int _fileDescriptor;
         int statusCode;
+        size_t _contentLength;
     };
 }
 

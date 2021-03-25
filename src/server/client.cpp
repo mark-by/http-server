@@ -4,13 +4,14 @@
 #include <cerrno>
 #include <cstring>
 #include <sys/socket.h>
-#include <iostream>
 #include <sys/mman.h>
-#include <fcntl.h>
-#include <sys/stat.h>
 #include <unistd.h>
-#include "http/http.h"
 #include "http/request.h"
+
+#ifdef __APPLE__
+#elif
+#include <sys/sendfile.h>
+#endif
 
 Client::Client(int socket, int buffSize = 8000) : _socket(socket), _buffSize(buffSize) {
     _buffer = new char[buffSize];
@@ -63,6 +64,10 @@ void Client::write(const http::Response& response) {
 
     if (response.descriptor() > 0) {
         off_t len = 0;
+#ifdef __APPLE__
         sendfile(response.descriptor(), _socket, 0, &len, nullptr, 0);
+#elif
+        sendfile(_socket, response.descriptor(), 0, response.contentLength());
+#endif
     }
 }

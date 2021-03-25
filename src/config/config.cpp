@@ -19,13 +19,17 @@ Config::Config(const std::string& filename) {
 
     std::string line;
     std::stringstream ss;
-    while (!fin.eof()) {
+    while (!fin.eof() && std::filesystem::exists(filename)) {
         getline(fin, line);
         line = line.substr(0, line.find('#'));
         ss << line;
         std::string key, value;
         ss >> key >> value;
         config[key] = value;
+    }
+
+    if (!std::filesystem::exists(filename)) {
+        std::cerr << "[WARN]: not found config file " + filename << std::endl;
     }
 
     cpu = std::stoi(defaultValue(config["cpu_limit"], "4"));
