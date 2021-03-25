@@ -26,6 +26,7 @@ Server::Server(const Config& config) {
     }
 
     sockaddr_in servAddr{};
+    std::memset(&servAddr, 0, sizeof(servAddr));
     servAddr.sin_family = AF_INET;
     servAddr.sin_addr.s_addr = htonl(INADDR_ANY);
     servAddr.sin_port = htons(config.port);
@@ -39,12 +40,13 @@ Server::Server(const Config& config) {
 }
 
 std::shared_ptr<Client> Server::accept() {
-    sockaddr client{};
+    sockaddr_in client{};
+    std::memset(&client, 0, sizeof(client));
     socklen_t clientLen = sizeof(client);
 
     int clientSocketDescriptor = ::accept(_socketDescriptor, (struct sockaddr*)&client, &clientLen);
     if (clientSocketDescriptor == -1) {
-        return std::shared_ptr<Client>();
+        throw std::runtime_error("fail to accept: " + std::string(std::strerror(errno)));
     }
 
     return std::make_shared<Client>(clientSocketDescriptor, _bufferSize);

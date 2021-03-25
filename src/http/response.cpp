@@ -14,6 +14,7 @@ void http::Response::setDate() {
 http::Response::Response(const int &status) : statusCode(status) {
     setDate();
     setHeader("Server", "mark-by");
+    setHeader("Connection", "close");
 }
 
 http::Response::~Response() {
@@ -43,6 +44,7 @@ http::Response::Response(int fileDescriptor, size_t size, const std::string &con
     _fileDescriptor = fileDescriptor;
     _contentLength = size;
     setHeader("Content-Length", std::to_string(size));
+    setHeader("Connection", "close");
 }
 
 void http::Response::headersToStream(std::stringstream & ss) const {

@@ -7,6 +7,7 @@
 #include <unistd.h>
 #include "http/request.h"
 #include <sys/socket.h>
+#include <sstream>
 
 #ifndef __APPLE__
 #include <sys/sendfile.h>
@@ -34,7 +35,7 @@ http::Request Client::read() {
     size_t read = 0;
     while (read < _buffSize) {
        auto received = recv(_socket, _buffer + read, _buffSize - read, 0);
-       if (received <= 0) {
+       if (received == -1 || received == 0) {
            throw std::runtime_error("read fail: " + std::string(std::strerror(errno)));
        }
 
