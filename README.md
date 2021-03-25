@@ -16,6 +16,16 @@ docker build -t httpd https://github.com/mark-by/http-server.git
 docker run -p 80:80 -v /etc/httpd.conf:/etc/httpd.conf:ro -v /var/www/html:/var/www/html:ro --name httpd -t httpd
 ```
 
+## Config
+```text
+cpu_limit 4       # maximum CPU count to use (for non-blocking servers)
+document_root /var/www/html
+default_file index.html
+port 80
+queue_limit 50
+buffer 8000
+```
+
 ## Tests
 ```shell
 git clone https://github.com/init/http-test-suite.git
