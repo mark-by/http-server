@@ -17,7 +17,6 @@ http::Response StaticHandler::handle(const http::Request &request) const {
     std::filesystem::path filepath = _rootDir;
     filepath.append(path.substr(1));
 
-
     if (!std::filesystem::exists(filepath)) {
         return http::Response(http::status::NotFound);
     }

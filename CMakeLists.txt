@@ -31,6 +31,6 @@ add_executable(highload
         include/handler/staticHandler.h
         src/handler/staticHandler.cpp
         include/server/server.h
-        src/server/server.cpp)
+        src/server/server.cpp include/config/regex.h)
 
 target_link_libraries(highload curl)

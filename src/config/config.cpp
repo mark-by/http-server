@@ -1,22 +1,37 @@
 #include "config/config.h"
 
-#include <boost/property_tree/ptree.hpp>
-#include <boost/property_tree/json_parser.hpp>
+#include <unordered_map>
+#include <fstream>
 #include <iostream>
+#include <sstream>
+
+std::string defaultValue(std::string value, std::string defaultValue) {
+    if (value == "") {
+        return defaultValue;
+    }
+    return value;
+}
 
 Config::Config(const std::string& filename) {
-    boost::property_tree::ptree root;
-    try {
-        boost::property_tree::read_json(filename, root);
-    } catch (boost::property_tree::json_parser_error& e) {
-        std::cout << "[WARN]: Config error: " << e.message() << " => "
-        << "Use default values" << std::endl;
+    std::unordered_map<std::string, std::string> config;
+
+    std::ifstream fin(filename);
+
+    std::string line;
+    std::stringstream ss;
+    while (!fin.eof()) {
+        getline(fin, line);
+        line = line.substr(0, line.find('#'));
+        ss << line;
+        std::string key, value;
+        ss >> key >> value;
+        config[key] = value;
     }
 
-    cpu = root.get<int>("cpu", 4);
-    port = root.get<int>("port", 8000);
-    limit = root.get<int>("limit", 50);
-    bufferSize = root.get<int>("bufferSize", 8000);
-    rootDirectory = root.get<std::string>("root", "");
-    defaultFile = root.get<std::string>("defaultFile", "index.html");
+    cpu = std::stoi(defaultValue(config["cpu_limit"], "4"));
+    port = std::stoi(defaultValue(config["port"], "80"));
+    limit = std::stoi(defaultValue(config["queue_limit"], "50"));
+    bufferSize = std::stoi(defaultValue(config["buffer"], "8000"));
+    rootDirectory = defaultValue(config["document_root"], "");
+    defaultFile = defaultValue(config["default_file"], "index.html");
 }
