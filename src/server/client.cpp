@@ -6,13 +6,11 @@
 #include <sys/mman.h>
 #include <unistd.h>
 #include "http/request.h"
-
-//#ifdef __APPLE__
-//#include <sys/socket.h>
-//#elif
 #include <sys/socket.h>
+
+#ifndef __APPLE__
 #include <sys/sendfile.h>
-//#endif
+#endif
 
 Client::Client(int socket, int buffSize = 8000) : _socket(socket), _buffSize(buffSize) {
     _buffer = new char[buffSize];
@@ -65,10 +63,10 @@ void Client::write(const http::Response& response) {
 
     if (response.descriptor() > 0) {
         off_t len = 0;
-//#ifdef __APPLE__
-//        sendfile(response.descriptor(), _socket, 0, &len, nullptr, 0);
-//#elif
+#ifdef __APPLE__
+        sendfile(response.descriptor(), _socket, 0, &len, nullptr, 0);
+#else
         sendfile(_socket, response.descriptor(), 0, response.contentLength());
-//#endif
+#endif
     }
 }
