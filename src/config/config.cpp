@@ -25,6 +25,7 @@ Config::Config(const std::string& filename) {
         ss << line;
         std::string key, value;
         ss >> key >> value;
+        ss.clear();
         config[key] = value;
     }
 

@@ -1,10 +1,14 @@
 #include "http/response.h"
-
-#include <boost/date_time/posix_time/posix_time.hpp>
+#include <chrono>
+#include <sstream>
+#include <unistd.h>
 
 void http::Response::setDate() {
-    auto now = boost::posix_time::second_clock::universal_time();
-    setHeader("Date", ptimeConverter.convert(now));
+    char time[1000];
+    time_t now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+    struct tm tm = *gmtime(&now);
+    strftime(time, sizeof time, "%a, %d %b %Y %H:%M:%S %Z", &tm);
+    setHeader("Date", std::string(time));
 }
 
 http::Response::Response(const int &status) : statusCode(status) {
@@ -58,7 +62,7 @@ void http::Response::headersToStream(std::stringstream & ss) const {
 }
 
 void http::Response::setHeader(const std::string &key, const std::string &value) {
-    headers.insert({boost::to_lower_copy(key), value});
+    headers.insert({key, value});
 }
 
 std::string http::Response::statusToStr() const {

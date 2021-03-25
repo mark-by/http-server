@@ -25,8 +25,6 @@ http::Response StaticHandler::handle(const http::Request &request) const {
         filepath.replace_filename(_defaultFile);
     }
 
-//    std::cout << filepath << std::endl;
-
     if (!std::filesystem::exists(filepath)) {
         return http::Response(http::status::Forbidden);
     }

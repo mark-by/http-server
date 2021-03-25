@@ -6,6 +6,7 @@
 #include <sys/mman.h>
 #include <fcntl.h>
 #include <cmath>
+#include <unistd.h>
 
 
 Server::Server(const Config& config) {
@@ -24,7 +25,6 @@ Server::Server(const Config& config) {
     }
 
     sockaddr_in servAddr{};
-//    memset(&servAddr, 0, sizeof(servAddr));
     servAddr.sin_family = AF_INET;
     servAddr.sin_addr.s_addr = htonl(INADDR_ANY);
     servAddr.sin_port = htons(config.port);

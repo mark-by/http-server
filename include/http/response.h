@@ -3,7 +3,7 @@
 
 #include <unordered_map>
 #include <vector>
-#include <http/datetime.h>
+#include <string>
 #include "http/http.h"
 
 #define HTTP_VERSION "HTTP/1.1"
@@ -30,7 +30,6 @@ namespace http {
         void startLineToStream(std::stringstream & ss) const;
         void headersToStream(std::stringstream & ss) const;
 
-        DateTimeConverter ptimeConverter;
         std::unordered_multimap<std::string, std::string> headers;
         std::string body;
         int _fileDescriptor;
