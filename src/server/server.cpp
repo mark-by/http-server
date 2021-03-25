@@ -7,6 +7,7 @@
 #include <fcntl.h>
 #include <cmath>
 #include <unistd.h>
+#include <cstring>
 
 
 Server::Server(const Config& config) {

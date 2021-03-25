@@ -21,7 +21,7 @@ namespace http {
         std::string str() const;
         void setHeader(const std::string &key, const std::string &value);
         void setStatus(const int &status);
-        size_t contentLength() {return _contentLength;}
+        size_t contentLength() const {return _contentLength;}
 
         int descriptor() const {return _fileDescriptor;}
     private:

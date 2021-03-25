@@ -5,6 +5,7 @@ RUN apt-get update && \
     make \
     g++ \
     curl \
+    libcurl4-openssl-dev \
     cmake
 
 WORKDIR /app
@@ -18,4 +19,8 @@ RUN mkdir build && \
 
 WORKDIR /app/build
 
+VOLUME ["/var/www/html"]
+
 ENTRYPOINT [ "/app/build/highload" ]
+
+EXPOSE 80

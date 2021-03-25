@@ -6,6 +6,7 @@
 #include "handler/handler.h"
 #include "config/config.h"
 #include "server/client.h"
+#include <memory>
 
 class Server {
 public:
