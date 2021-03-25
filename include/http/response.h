@@ -12,7 +12,6 @@ namespace http {
     class Response {
     public:
         explicit Response(const int &status = status::OK);
-        explicit Response(const std::string& data, const std::string& contentType, const int &status = status::OK);
         explicit Response(int fileDescriptor, size_t size, const std::string& contentType, int status = status::OK);
         Response& operator=(Response&& other) noexcept ;
         Response(const Response& other);
@@ -20,7 +19,6 @@ namespace http {
 
         std::string str() const;
         void setHeader(const std::string &key, const std::string &value);
-        void setStatus(const int &status);
         size_t contentLength() const {return _contentLength;}
 
         int descriptor() const {return _fileDescriptor;}

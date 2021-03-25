@@ -40,10 +40,6 @@ std::string http::Request::urlDecode(const std::string& url) {
     return temp_body;
 }
 
-std::string http::Request::urlDecode(const std::string::const_iterator &begin, const std::string::const_iterator &end) {
-    return urlDecode(std::string(begin, end));
-}
-
 void http::Request::replacePlusToSpace(std::string &str) {
     auto it = str.begin();
     auto end = str.end();

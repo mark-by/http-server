@@ -36,16 +36,6 @@ std::string http::Response::str() const {
     return response.str();
 }
 
-http::Response::Response(const std::string &data, const std::string &contentType, const int &status) : statusCode(status) {
-    setDate();
-    setHeader("Content-Type", contentType);
-    setHeader("Server", "mark-by");
-    body = data;
-    _contentLength = body.size();
-    _fileDescriptor = -1;
-    setHeader("Content-Length", std::to_string(body.size()));
-}
-
 http::Response::Response(int fileDescriptor, size_t size, const std::string &contentType, int status) : statusCode(status) {
     setDate();
     setHeader("Content-Type", contentType);
@@ -97,10 +87,6 @@ http::Response &http::Response::operator=(Response &&other) noexcept {
     body = other.body;
     statusCode = other.statusCode;
     return *this;
-}
-
-void http::Response::setStatus(const int &status) {
-    statusCode = status;
 }
 
 http::Response::Response(const Response &other) {
