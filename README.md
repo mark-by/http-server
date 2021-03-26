@@ -39,7 +39,7 @@ Benchmarks are done with ApacheBench.
 
 ### Environment
 OC: Ubuntu 20.04 (in Parallels)  
-CPU: М1 Apple Silicon
+CPU: М1 Apple Silicon  
 Without dockers
 
 ### Parameters
@@ -108,7 +108,8 @@ Total:          1   12  59.5      7    1045
 
 ### Environment
 OC: macOS  
-CPU: М1 Apple Silicon
+CPU: М1 Apple Silicon  
+In dockers
 
 ### Parameters
 Httpd processes: 4  
